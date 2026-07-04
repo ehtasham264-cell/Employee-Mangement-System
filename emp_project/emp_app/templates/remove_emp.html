@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Remove Employee{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h2><i class="fas fa-user-minus mr-2"></i>Remove Employee</h2>
+  <p class="mb-0 mt-1">Select an employee to remove from the system</p>
+</div>
+
+<div class="card">
+  <div class="card-body p-0">
+    {% if emps %}
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Phone</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emp in emps %}
+          <tr>
+            <td class="text-muted">{{ emp.id }}</td>
+            <td class="font-weight-bold">{{ emp.first_name }} {{ emp.last_name }}</td>
+            <td><span class="badge-dept">{{ emp.dept.name }}</span></td>
+            <td><span class="badge-role">{{ emp.role.name }}</span></td>
+            <td>{{ emp.phone }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-danger"
+                data-toggle="modal" data-target="#confirmModal"
+                data-empid="{{ emp.id }}"
+                data-empname="{{ emp.first_name }} {{ emp.last_name }}">
+                <i class="fas fa-trash-alt mr-1"></i>Remove
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-users fa-3x mb-3"></i>
+      <p>No employees in the system.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:12px; border:none;">
+      <div class="modal-header bg-danger text-white" style="border-radius:12px 12px 0 0;">
+        <h5 class="modal-title"><i class="fas fa-exclamation-triangle mr-2"></i>Confirm Removal</h5>
+        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center py-4">
+        <p class="mb-0">Are you sure you want to remove <strong id="empNameDisplay"></strong>?</p>
+        <p class="text-muted small">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <form method="post" action="/remove_emp" id="deleteForm">
+          {% csrf_token %}
+          <input type="hidden" name="emp_id" id="empIdInput">
+          <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt mr-1"></i>Yes, Remove</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  $('#confirmModal').on('show.bs.modal', function(event) {
+    var btn = $(event.relatedTarget);
+    $('#empIdInput').val(btn.data('empid'));
+    $('#empNameDisplay').text(btn.data('empname'));
+  });
+</script>
+{% endblock %}

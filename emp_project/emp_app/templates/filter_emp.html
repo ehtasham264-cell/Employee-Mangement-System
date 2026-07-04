@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title %}Filter Employees{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h2><i class="fas fa-filter mr-2"></i>Filter Employees</h2>
+  <p class="mb-0 mt-1">Search and filter employees by various criteria</p>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header bg-white">
+    <strong><i class="fas fa-search mr-1"></i>Search Filters</strong>
+  </div>
+  <div class="card-body">
+    <form method="get" action="/filter_emp">
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label class="small font-weight-bold text-muted">Name Search</label>
+          <input type="text" class="form-control" name="search" placeholder="First or last name..."
+            value="{{ query.search|default:'' }}">
+        </div>
+        <div class="col-md-3 form-group">
+          <label class="small font-weight-bold text-muted">Department</label>
+          <select class="form-control" name="dept">
+            <option value="">All Departments</option>
+            {% for dept in departments %}
+              <option value="{{ dept.id }}" {% if query.dept == dept.id|stringformat:"s" %}selected{% endif %}>
+                {{ dept.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="small font-weight-bold text-muted">Role</label>
+          <select class="form-control" name="role">
+            <option value="">All Roles</option>
+            {% for role in roles %}
+              <option value="{{ role.id }}" {% if query.role == role.id|stringformat:"s" %}selected{% endif %}>
+                {{ role.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="small font-weight-bold text-muted">Min Salary (₹)</label>
+          <input type="number" class="form-control" name="min_salary" placeholder="e.g. 30000"
+            value="{{ query.min_salary|default:'' }}">
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="small font-weight-bold text-muted">Max Salary (₹)</label>
+          <input type="number" class="form-control" name="max_salary" placeholder="e.g. 100000"
+            value="{{ query.max_salary|default:'' }}">
+        </div>
+      </div>
+      <div class="d-flex">
+        <button type="submit" class="btn btn-primary mr-2"><i class="fas fa-search mr-1"></i>Search</button>
+        <a href="/filter_emp" class="btn btn-outline-secondary"><i class="fas fa-times mr-1"></i>Clear</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% if emps is not None %}
+<div class="card">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center">
+    <strong>Results</strong>
+    <span class="badge badge-primary badge-pill">{{ emps|length }} found</span>
+  </div>
+  <div class="card-body p-0">
+    {% if emps %}
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Salary</th>
+            <th>Bonus</th>
+            <th>Phone</th>
+            <th>Hire Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emp in emps %}
+          <tr>
+            <td class="text-muted">{{ emp.id }}</td>
+            <td class="font-weight-bold">{{ emp.first_name }} {{ emp.last_name }}</td>
+            <td><span class="badge-dept">{{ emp.dept.name }}</span></td>
+            <td><span class="badge-role">{{ emp.role.name }}</span></td>
+            <td>₹{{ emp.salary|floatformat:0 }}</td>
+            <td>{% if emp.bonus %}₹{{ emp.bonus|floatformat:0 }}{% else %}—{% endif %}</td>
+            <td>{{ emp.phone }}</td>
+            <td>{{ emp.hire_date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-search fa-3x mb-3"></i>
+      <p>No employees match your filters.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

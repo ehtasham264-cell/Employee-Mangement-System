@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}All Employees{% endblock %}
+{% block content %}
+
+<div class="page-header d-flex justify-content-between align-items-center">
+  <div>
+    <h2><i class="fas fa-users mr-2"></i>All Employees</h2>
+    <p class="mb-0 mt-1">{{ emps|length }} employee{{ emps|length|pluralize }} found</p>
+  </div>
+  <a href="/add_emp" class="btn btn-light"><i class="fas fa-user-plus mr-1"></i>Add New</a>
+</div>
+
+<div class="card">
+  <div class="card-body p-0">
+    {% if emps %}
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Location</th>
+            <th>Salary</th>
+            <th>Bonus</th>
+            <th>Hire Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emp in emps %}
+          <tr>
+            <td class="text-muted">{{ emp.id }}</td>
+            <td class="font-weight-bold">{{ emp.first_name }} {{ emp.last_name }}</td>
+            <td><i class="fas fa-phone-alt text-muted mr-1"></i>{{ emp.phone }}</td>
+            <td><span class="badge-dept">{{ emp.dept.name }}</span></td>
+            <td><span class="badge-role">{{ emp.role.name }}</span></td>
+            <td>{{ emp.dept.location }}</td>
+            <td>₹{{ emp.salary|floatformat:0 }}</td>
+            <td>{% if emp.bonus %}₹{{ emp.bonus|floatformat:0 }}{% else %}—{% endif %}</td>
+            <td>{{ emp.hire_date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-users fa-3x mb-3"></i>
+      <p>No employees found. <a href="/add_emp">Add one now.</a></p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

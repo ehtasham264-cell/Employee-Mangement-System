@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Home — Employee Management System{% endblock %}
+{% block content %}
+
+<div class="page-header text-center">
+  <h1><i class="fas fa-users-cog mr-2"></i>Employee Management System</h1>
+  <p class="mb-0 mt-2 opacity-75">Manage your workforce with ease</p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-md-3 mb-4">
+    <a href="/all_emp" class="text-decoration-none">
+      <div class="card stat-card blue text-center p-4 h-100">
+        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+        <h5 class="font-weight-bold">View All Employees</h5>
+        <p class="text-muted small mb-0">Browse the full employee directory</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-3 mb-4">
+    <a href="/add_emp" class="text-decoration-none">
+      <div class="card stat-card green text-center p-4 h-100">
+        <i class="fas fa-user-plus fa-3x text-success mb-3"></i>
+        <h5 class="font-weight-bold">Add Employee</h5>
+        <p class="text-muted small mb-0">Onboard a new team member</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-3 mb-4">
+    <a href="/filter_emp" class="text-decoration-none">
+      <div class="card stat-card blue text-center p-4 h-100">
+        <i class="fas fa-filter fa-3x text-info mb-3"></i>
+        <h5 class="font-weight-bold">Filter Employees</h5>
+        <p class="text-muted small mb-0">Search by department, role, salary</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-3 mb-4">
+    <a href="/remove_emp" class="text-decoration-none">
+      <div class="card stat-card purple text-center p-4 h-100">
+        <i class="fas fa-user-minus fa-3x text-danger mb-3"></i>
+        <h5 class="font-weight-bold">Remove Employee</h5>
+        <p class="text-muted small mb-0">Offboard an employee</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+{% endblock %}

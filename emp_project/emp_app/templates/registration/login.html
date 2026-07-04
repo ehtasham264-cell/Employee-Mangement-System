@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>Login – Employee Management System</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a237e, #283593);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 420px;
+    }
+    .login-header {
+      background: linear-gradient(135deg, #1a237e, #283593);
+      color: white;
+      border-radius: 16px 16px 0 0;
+      padding: 2rem;
+      text-align: center;
+    }
+    .login-header i { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .login-body { padding: 2rem; }
+    .form-control { border-radius: 8px; }
+    .btn-login {
+      background: linear-gradient(135deg, #1a237e, #283593);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      padding: 0.6rem;
+    }
+    .btn-login:hover { opacity: 0.9; color: white; }
+  </style>
+</head>
+<body>
+  <div class="login-card card">
+    <div class="login-header">
+      <div><i class="fas fa-users-cog"></i></div>
+      <h4 class="mb-0 font-weight-bold">Employee Management</h4>
+      <small class="text-white-50">Sign in to continue</small>
+    </div>
+    <div class="login-body">
+      {% if form.errors %}
+        <div class="alert alert-danger">Invalid username or password. Please try again.</div>
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label><i class="fas fa-user mr-1"></i> Username</label>
+          <input type="text" name="username" class="form-control" placeholder="Enter username" autofocus required>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-lock mr-1"></i> Password</label>
+          <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+        </div>
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit" class="btn btn-login btn-block mt-3">
+          <i class="fas fa-sign-in-alt mr-1"></i> Login
+        </button>
+      </form>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

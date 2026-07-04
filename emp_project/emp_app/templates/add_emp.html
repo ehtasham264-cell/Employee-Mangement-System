@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Add Employee{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h2><i class="fas fa-user-plus mr-2"></i>Add New Employee</h2>
+  <p class="mb-0 mt-1">Fill in the details below to onboard a new team member</p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body p-4">
+        <form action="/add_emp" method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label><i class="fas fa-user mr-1 text-muted"></i> First Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="first_name" placeholder="Enter first name" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><i class="fas fa-user mr-1 text-muted"></i> Last Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="last_name" placeholder="Enter last name" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label><i class="fas fa-building mr-1 text-muted"></i> Department <span class="text-danger">*</span></label>
+              <select class="form-control" name="dept" required>
+                <option value="">— Select Department —</option>
+                {% for dept in departments %}
+                  <option value="{{ dept.id }}">{{ dept.name }} ({{ dept.location }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><i class="fas fa-briefcase mr-1 text-muted"></i> Role <span class="text-danger">*</span></label>
+              <select class="form-control" name="role" required>
+                <option value="">— Select Role —</option>
+                {% for role in roles %}
+                  <option value="{{ role.id }}">{{ role.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label><i class="fas fa-rupee-sign mr-1 text-muted"></i> Salary <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" name="salary" placeholder="e.g. 50000" min="0" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><i class="fas fa-gift mr-1 text-muted"></i> Bonus</label>
+              <input type="number" class="form-control" name="bonus" placeholder="e.g. 5000" min="0" value="0">
+            </div>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-phone mr-1 text-muted"></i> Phone Number <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="phone" placeholder="e.g. 9876543210" required>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <a href="/" class="btn btn-outline-secondary"><i class="fas fa-arrow-left mr-1"></i>Back</a>
+            <button type="submit" class="btn btn-success px-4"><i class="fas fa-save mr-1"></i>Save Employee</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
